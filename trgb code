@@ -1,0 +1,85 @@
+#include <FastLED.h>  //Addició de la llibreria FASTLED. La llibreria fastLED es una llibreria que facilita la programació de tires de leds RGB tipus NeoPixel, WS2812S, etc. 
+int ir_sensor0 = A0;  //Numero del pin d'informaciò del sensor sharp
+int buzzer = 9; //Numero del pin d'entrada de l'altaveu
+int numTones = 10; //Nombre de notes que sonara segons la distancia que detecta el sensor
+#define NUM_LEDS 8 //Quantitt de leds que s'iluminaran
+#define DATA_PIN 11 //Numero del pin d'entrada de l'informacio de la tira de leds rgb
+int tones[ ] = {261, 277, 294, 311, 330, 349, 370, 392, 415, 440, 466, 494}; //Frequencia que representa una nota              
+  //DO, DO#, RE, RE#, MI, FA, FA#, SOL, SOL#, A, A#, B  
+CRGB leds[NUM_LEDS]; //Variable que fara il·luminar de un color cconcret la quantitat de leds establertes
+void setup() { //Programa que es activarà quan l’arduino inici
+  FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS); //Funciò que activa la llibreria FastLED que activa els LEDs
+  Serial.begin(9600); //Funció de la velocitat de transmissio de data entre segon
+}
+void loop() { //Programa que s’activara i  estarà en repetició durant el tems que l’arduino estigui actiu
+int lectura, cm; //Variables de lectura i distancia del sensor 
+  lectura = analogRead(ir_sensor0); // lectura del sensor 0
+  cm = pow(3027.4 / lectura, 1.2134); // Conversio de la lectura a centimetres
+  Serial.print("Sensor 0: "); //Informaciò obtinguda pel sensor
+  Serial.print(cm); // lectura del sensor 0
+  delay(100); // Temps entre lectures
+  int reading = analogRead(ir_sensor0); //Relaciò entre la lectura del sensor i la variable reading  
+ delay(150);                    // Temps entre variables
+   if (reading < 1600 && reading > 661) //Condició que dicta una serie de events entre dos valors 
+  {
+    noTone(buzzer); //Funciò que impideix la prodducio de soroll per part de l'altaveu
+    fill_solid( &(leds[0]), NUM_LEDS, CRGB::Black);   //Funciò que estableix la quantitat de leds que s'ilumninen durant la condició i el color en que els leds estaran. Quan s'estableix que CRBG=Black, s'estableix que els leds no s'iluminin 
+FastLED.show(); //Funciò que activa els leds     
+  }       
+  if (reading < 660 && reading > 601) //Condició que dicta una serie de events entre dos valors 
+  {
+    //Bloc 1
+    tone(buzzer, tones[1]); //Funció que dicta la nota que tocara segons l'ordre que es troben en la variable tones
+    fill_solid( &(leds[0]), NUM_LEDS, CRGB::Red); //Funciò que estableix la quantitat de leds que s'ilumninen durant la condició i el color en que els leds estaran. 
+ FastLED.show(); //Funciò que activa els leds   
+  }
+  if (reading < 600 && reading > 541)
+  {
+    // Bloc 2
+    tone(buzzer, tones[3]);
+    fill_solid( &(leds[0]), NUM_LEDS, CRGB::Green);
+FastLED.show();     
+  }
+  if (reading < 540 && reading > 481)
+  {
+    //Bloc 3
+    tone(buzzer, tones[5]);
+    fill_solid( &(leds[0]), NUM_LEDS, CRGB::Blue);
+ FastLED.show();     
+  }
+   if (reading < 480 && reading > 421)
+  {
+    //Bloc 4
+    tone(buzzer, tones[6]);
+    fill_solid( &(leds[0]), NUM_LEDS, CRGB::Orange);
+ FastLED.show();     
+  }
+     if (reading < 420 && reading > 361)
+  {
+    //Bloc 5
+    tone(buzzer, tones[8]);
+    fill_solid( &(leds[0]), NUM_LEDS, CRGB::Yellow);
+ FastLED.show();    
+  }
+     if (reading <360 && reading > 301)
+  {
+    //Bloc 7
+    tone(buzzer, tones[10]);
+    fill_solid( &(leds[0]), NUM_LEDS, CRGB::Purple);
+ FastLED.show(); 
+  }
+     if (reading < 300 && reading > 241)
+  {
+    //Bloc 7
+    tone(buzzer, tones[11]);
+    fill_solid( &(leds[0]), NUM_LEDS, CRGB::Linen); //Color de to grisaci blavòs
+ FastLED.show();    
+  }
+     if (reading < 240 && reading > 0)
+  {
+    //Final
+    noTone(buzzer);
+    fill_solid( &(leds[0]), NUM_LEDS, CRGB::Black);
+ FastLED.show();    
+  }     
+}
