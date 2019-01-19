@@ -1,4 +1,4 @@
-//Creat per Jaume Gómez Simón
+//Creat per Jaume Gómez Simón i Marta Romero Rodríguez
 //Es necesita la llibreria FastLED perque el codi funcioni
 #include <FastLED.h>  //Addició de la llibreria FASTLED. La llibreria fastLED es una llibreria que facilita la programació de tires de leds RGB tipus NeoPixel, WS2812S, etc. 
 int ir_sensor0 = A0;  //Numero del pin d'informaciò del sensor sharp
